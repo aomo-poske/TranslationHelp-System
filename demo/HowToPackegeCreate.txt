@@ -1,0 +1,2 @@
+「自作のcomposerパッケージ(hello,world)を、githubに登録して、laravelから利用できる方法」
+https://www.messiahworks.com/archives/18541

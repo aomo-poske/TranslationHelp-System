@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>THS</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  
+</head>
+
+<body>
+  <header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a class="navbar-brand d-flex align-items-center">
+            <strong>THS</strong>
+          </a>
+        </div>
+    </div>
+    
+  </header>
+  <br>
+  <div class="card-deck">
+    <!------------ユーザープロフィール------------->
+    <div class="card" style="max-width: 18rem; height: 18rem;">
+      <div class="card-header">your plofile</div>
+        <div class="card-body">
+          <h4 class="card-title"><%= username %></h4>
+          <p class="card-text">
+              This is where your introduction is written.
+          </p>
+        </div>
+        <a href="/logout">logout</a>
+      </div>
+    
+      <div class="d-flex flex-column bd-highlight mb-3">
+        <div><strong>　Welcome, <%=username%>。</strong></div>
+        <br>         
+            <form  method="get" action="/authed/ths_home">
+              <button class="btn btn-info"><input type="hidden" name="count" value=1>　Go THS Home　Page</button>
+            </form>    
+          <br>
+
+          <div class="tab-wrap">
+            <input id="TAB-01" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" for="TAB-01">User Info</label>
+            <div class="tab-content">
+              <div>user-name : <%=username%></div>
+              <div>mail-address : <%=usermail%></div>
+              <br>
+              <form method="post" action="/authed/userinfo_change">
+                <strong>Change mail-address</strong>
+                <br>
+                new-mail-address : <input type="email" name="mail" placeholder="Email">
+                <br>
+                <button type="submit" class="tab-label2" for="TAB-02">Change</button>
+              </form>
+                <input id="TAB-03" type="radio" name="TAB" class="tab-switch" /><label class="tab-label2" for="TAB-03">close your info</label>
+            </div>
+          </div>
+          <br>
+          <form method="get" action="/logout">
+            <button class="btn btn-info">logout</button>
+          </form> 
+        </div>
+    </div>
+</div>
+</body> 
+</html>

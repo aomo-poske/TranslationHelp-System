@@ -1,0 +1,43 @@
+psql -h localhost -U postgres -d ths_db
+
+CREATE DATABASE ths_db;
+
+データベース一覧の表示
+\l
+
+データベースの選択
+\c データベース名
+
+--------------------------------------
+CREATE TABLE ths_data_set(
+set_id integer UNIQUE,
+private boolean,
+ownerUserId integer,
+Explanation text
+);
+
+CREATE TABLE ths_data_table(
+table_id integer UNIQUE,
+set_id integer references ths_data_set(set_id),
+language varchar(50),
+sentence text 
+);
+
+CREATE TABLE ths_user(
+user_id integer,
+name VARCHAR(15),
+mail VARCHAR(50),
+hash VARCHAR(100)
+);
+
+
+CREATE TABLE user_token(
+user_id integer,
+name VARCHAR(15),
+token VARCHAR(100),
+mail VARCHAR(50),
+insert_time DATE
+);
+
+
+---------------------------------------

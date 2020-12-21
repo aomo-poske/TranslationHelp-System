@@ -1,0 +1,31 @@
+INSERT INTO ths_data_SET
+VALUES(1,FALSE,1,'Text displayed when you cannot log in without an email address');
+
+INSERT INTO ths_data_SET
+VALUES(2,FALSE,1,'Text displayed when you cannot log in due to an incorrect password');
+
+INSERT INTO ths_data_table
+VALUES(1,1,'ja','メールアドレスが違います。');
+
+INSERT INTO ths_data_table
+VALUES(2,1,'en-US','Can not find my email address.');
+
+INSERT INTO ths_data_table
+VALUES(3,2,'ja','パスワードが違います。');
+
+INSERT INTO ths_data_table
+VALUES(4,2,'en-US','Password is incorrect.');
+
+----------------------------------------------------------------------------------
+INSERT INTO ths_data_SET
+VALUES(3,FALSE,1,'Sentences when the session expires and you need to log in');
+
+INSERT INTO ths_data_table
+VALUES(5,3,'ja','セッションが切れました。ログインが必要です。');
+
+INSERT INTO ths_data_table
+VALUES(6,3,'en-US','The session has expired. Please login.');
+
+-----------------------------------------------------------------------------------
+INSERT INTO ths_data_SET
+VALUES(4,FALSE,1,'Text displayed when the user is not registered');
