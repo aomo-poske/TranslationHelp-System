@@ -1,14 +1,16 @@
 const { RequestHeaderFieldsTooLarge } = require("http-errors");
+const pg = require('pg');
 
 /**
  * クラス定義
  */
-Trans.prototype = {
+THS_Trans.prototype = {
 	language : null,
 	set_id : 0
 };
 
-function ths_db_access(set_id , language){
+async function ths_db_access(set_id , language){
+	let idCheck = null;
 	let row = null;
 	let trans = null;
 	const pool = new pg.Pool({
@@ -17,35 +19,37 @@ function ths_db_access(set_id , language){
 		password: 'Kasumin1', //PASSWORDにはPostgreSQLをインストールした際に設定したパスワードを記述。
 		host: 'localhost',
 	  });
-	try{
-		if(!pool)throw new Error("DBアクセスに失敗しました。")
-		client = await pool.connect()
-		if(!client)throw new Error("DBアクセスに失敗しました。")
-		
-		row = await('SELECT *FROM ths_data_table WHERE set_id=$1 AND language=$2',[set_id,language]);
-		if(!row)throw new Error("IDに対応する翻訳がありません。")
-		trans = row.rows[0].sentence;
-		console.log("functiontrans="+trans)
-		return trans;
-	}catch(err){
-		console.log(err.message);
-	}
+		try{
+			if(!pool)throw new Error("DBアクセスに失敗しました。")
+			client = await pool.connect()
+			if(!client)throw new Error("DBアクセスに失敗しました。")
+
+			idCheck = await client.query('SELECT *FROM ths_data_table WHERE set_id=$1',[set_id]);
+			if(!idCheck)throw new Error("このIDは翻訳が登録されていません。")
+			row = await client.query('SELECT *FROM ths_data_table WHERE set_id=$1 AND language=$2',[set_id,language]);
+			if(!row)row = await client.query("SELECT *FROM ths_data_table WHERE set_id=$1 AND language='en-US'",[set_id]);
+			trans = row.rows[0].sentence;
+			return trans;		
+		}catch(err){
+			console.log(err.message);
+			trans = err.message;
+			return trans;
+		}
 }
 
 //Trans.prototypeで定義したものがそのまま使える…？っぽい！
-function THS_Trans(set_id,language){
+async function THS_Trans(set_id,language){
 	let trans = "";
-	try{
-		console.log("set_id="+set_id);
-		console.log("language="+language);
+		try{
+			console.log("set_id="+set_id);
+			console.log("language="+language);
 
-		trnas = ths_db_access(set_id,language);
-		if(!trans)throw new Error("翻訳が見つかりませんでした。")
-		console.log("maintrans="+trans)
-	}catch(err){
-		console.log(err.message);
-	}
-	return trans;
+			trans = await ths_db_access(set_id,language);
+			if(!trans)throw new Error("翻訳が見つかりませんでした。")
+		}catch(err){
+			console.log(err.message);
+		}
+		return trans;
 }
 
 module.exports = THS_Trans;
